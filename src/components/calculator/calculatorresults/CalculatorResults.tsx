@@ -66,7 +66,7 @@ export default function CalculatorResults({
         <CostLine leftValue="soskost:" rightValue={soskost} />
         <CostLine leftValue="skatt:" rightValue={spartSkatt} underline={1} />
         <CostLine
-          leftValue="estimert netto lønnreduksjon:"
+          leftValue="netto sum:"
           rightValue={loennreduksjon}
           underline={2}
         />
