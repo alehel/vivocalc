@@ -1,5 +1,11 @@
 export function priceBeforeMva(pris: number, mva: number): number {
-  return pris / parseFloat("1." + mva.toString());
+  if (mva < 10) {
+    return pris / parseFloat("1.0" + mva.toString());
+  } else if (mva < 100) {
+    return pris / parseFloat("1." + mva.toString());
+  } else {
+    return pris / 2;
+  }
 }
 
 export function calculateLoennsgrunnlag(

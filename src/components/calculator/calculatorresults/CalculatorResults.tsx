@@ -55,15 +55,21 @@ export default function CalculatorResults({
         oektAga
       ).toString()
     : valideringFeilSymbol;
+  const mvaValidated = validValues ? mva : valideringFeilSymbol;
+  const prisValidated = validValues ? pris : valideringFeilSymbol;
+  const skattValidated = validValues ? skatt : valideringFeilSymbol;
+  const mvaKr = validValues
+    ? parseFloat(pris) - parseFloat(utenMva)
+    : valideringFeilSymbol;
 
   return (
     <div className="text-sm w-full">
       <h2 className="text-gray-600 font-bold mb-2">Utregning</h2>
       <div className="text-sm/6">
-        <CostLine description="kost" value={pris} />
+        <CostLine description="kost" value={prisValidated} />
         <CostLine
-          description={`mva (${mva}%)`}
-          value={(parseFloat(pris) - parseFloat(utenMva)).toString()}
+          description={`mva (${mvaValidated}%)`}
+          value={mvaKr.toString()}
           operator="-"
         />
         <CostLine description="trekkgrunnlag" value={utenMva} operator="=" />
@@ -74,7 +80,7 @@ export default function CalculatorResults({
           operator="="
         />
         <CostLine
-          description={`skatt (${skatt}%)`}
+          description={`skatt (${skattValidated}%)`}
           value={spartSkatt}
           underline={1}
           operator="-"
