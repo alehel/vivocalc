@@ -3,12 +3,14 @@ import { formatNumber } from "@/lib/formatter";
 import { isANumber } from "@/lib/validators";
 
 export default function CostLine({
-  leftValue,
-  rightValue,
+  operator = "",
+  description,
+  value,
   underline = 0,
 }: {
-  leftValue: string;
-  rightValue: string;
+  operator?: string;
+  description: string;
+  value: string;
   underline?: number;
 }) {
   const underlineStyle = (): string => {
@@ -22,13 +24,15 @@ export default function CostLine({
 
     return "";
   };
-  isANumber;
 
   return (
-    <div className={`min-w-full space-x-8 flex ${underlineStyle()}`}>
-      <span>{leftValue}</span>
+    <div className={`min-w-full flex ${underlineStyle()}`}>
+      <span className="min-w-[20px] max-w-[20px] text-right pr-2">
+        {operator}
+      </span>
+      <span>{description}</span>
       <span className="text-right grow tabular-nums">
-        {isANumber(rightValue) ? formatNumber(parseFloat(rightValue)) : rightValue}
+        {isANumber(value) ? formatNumber(parseFloat(value)) : value}
       </span>
     </div>
   );

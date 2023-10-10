@@ -56,18 +56,33 @@ export default function CalculatorResults({
       ).toString()
     : valideringFeilSymbol;
 
-  console.log(loennreduksjon);
   return (
     <div className="text-sm w-full">
       <h2 className="text-gray-600 font-bold mb-2">Utregning</h2>
       <div className="text-sm/6">
-        <CostLine leftValue="uten mva:" rightValue={utenMva} />
-        <CostLine leftValue="lønnsgrunnlag:" rightValue={loennsgrunnlag} />
-        <CostLine leftValue="soskost:" rightValue={soskost} />
-        <CostLine leftValue="skatt:" rightValue={spartSkatt} underline={1} />
+        <CostLine description="kost" value={pris} />
         <CostLine
-          leftValue="netto sum:"
-          rightValue={loennreduksjon}
+          description={`mva (${mva}%)`}
+          value={(parseFloat(pris) - parseFloat(utenMva)).toString()}
+          operator="-"
+        />
+        <CostLine description="trekkgrunnlag" value={utenMva} operator="=" />
+        <CostLine description="soskost" value={soskost} operator="-" />
+        <CostLine
+          description="lønnsgrunnlag"
+          value={loennsgrunnlag}
+          operator="="
+        />
+        <CostLine
+          description={`skatt (${skatt}%)`}
+          value={spartSkatt}
+          underline={1}
+          operator="-"
+        />
+        <CostLine
+          description="lønnsreduksjon"
+          value={loennreduksjon}
+          operator="="
           underline={2}
         />
       </div>
