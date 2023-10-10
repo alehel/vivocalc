@@ -1,4 +1,6 @@
 import React from "react";
+import { formatNumber } from "@/lib/formatter";
+import { isANumber } from "@/lib/validators";
 
 export default function CostLine({
   leftValue,
@@ -20,11 +22,14 @@ export default function CostLine({
 
     return "";
   };
+  isANumber;
 
   return (
     <div className={`min-w-full space-x-8 flex ${underlineStyle()}`}>
       <span>{leftValue}</span>
-      <span className="text-right grow">{rightValue} kr</span>
+      <span className="text-right grow tabular-nums">
+        {isANumber(rightValue) ? formatNumber(parseFloat(rightValue)) : rightValue}
+      </span>
     </div>
   );
 }

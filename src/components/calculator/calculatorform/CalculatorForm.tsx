@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput } from "@/components/textinput";
 import { CheckboxInput } from "../../checkboxinput";
-import { isANumber, isAPercentage, isAPositiveNumber } from "@/lib/validators";
+import { isANumber, isAPercentage, isAReasonablePositiveNumber } from "@/lib/validators";
 
 function CalculatorForm({
   pris,
@@ -23,13 +23,13 @@ function CalculatorForm({
   setOektAga: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <form>
+    <form className="w-full">
       <TextInput
         id="pris"
         labelText="Pris"
         value={pris.toString()}
         onChange={(e) => setPris(e.currentTarget.value)}
-        validator={isAPositiveNumber}
+        validator={isAReasonablePositiveNumber}
       />
 
       <TextInput

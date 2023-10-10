@@ -6,7 +6,7 @@ import {
   calculateTax,
   priceBeforeMva,
 } from "@/lib/calculatorFunctions";
-import { isANumber } from "@/lib/validators";
+import { isAReasonablePositiveNumber, isAPercentage } from "@/lib/validators";
 import React from "react";
 
 export default function CalculatorResults({
@@ -20,59 +20,54 @@ export default function CalculatorResults({
   skatt: string;
   oektAga: boolean;
 }) {
-  const validValues = [pris, mva, skatt].every(isANumber);
+  const validValues =
+    isAReasonablePositiveNumber(pris) &&
+    isAPercentage(mva) &&
+    isAPercentage(skatt);
 
-  const calculateAndDisplayValue = (
-    calculationFunction: Function,
-    ...args: number[]
-  ) => (validValues ? " " + calculationFunction(...args).toFixed(2) : " -");
+  const valideringFeilSymbol = " -";
+  const utenMva = validValues
+    ? priceBeforeMva(parseFloat(pris), parseFloat(mva)).toString()
+    : valideringFeilSymbol;
+  const loennsgrunnlag = validValues
+    ? calculateLoennsgrunnlag(
+        parseFloat(pris),
+        parseFloat(mva),
+        oektAga
+      ).toString()
+    : valideringFeilSymbol;
+  const soskost = validValues
+    ? calculateSoskost(parseFloat(pris), parseFloat(mva), oektAga).toString()
+    : valideringFeilSymbol;
+  const spartSkatt = validValues
+    ? calculateTax(
+        parseFloat(pris),
+        parseFloat(mva),
+        parseFloat(skatt),
+        oektAga
+      ).toString()
+    : valideringFeilSymbol;
+  const loennreduksjon = validValues
+    ? calculateNettoSum(
+        parseFloat(pris),
+        parseFloat(mva),
+        parseFloat(skatt),
+        oektAga
+      ).toString()
+    : valideringFeilSymbol;
 
+  console.log(loennreduksjon);
   return (
-    <div className="text-sm">
+    <div className="text-sm w-full">
       <h2 className="text-gray-600 font-bold mb-2">Utregning</h2>
       <div className="text-sm/6">
-        <CostLine
-          leftValue="uten mva:"
-          rightValue={calculateAndDisplayValue(
-            priceBeforeMva,
-            parseFloat(pris),
-            parseFloat(mva)
-          )}
-        />
-        <CostLine
-          leftValue="lønnsgrunnlag:"
-          rightValue={calculateAndDisplayValue(
-            calculateLoennsgrunnlag,
-            parseFloat(pris),
-            parseFloat(mva)
-          )}
-        />
-        <CostLine
-          leftValue="soskost:"
-          rightValue={calculateAndDisplayValue(
-            calculateSoskost,
-            parseFloat(pris),
-            parseFloat(mva)
-          )}
-        />
-        <CostLine
-          leftValue="skatt:"
-          rightValue={calculateAndDisplayValue(
-            calculateTax,
-            parseFloat(pris),
-            parseFloat(mva),
-            parseFloat(skatt)
-          )}
-          underline={1}
-        />
+        <CostLine leftValue="uten mva:" rightValue={utenMva} />
+        <CostLine leftValue="lønnsgrunnlag:" rightValue={loennsgrunnlag} />
+        <CostLine leftValue="soskost:" rightValue={soskost} />
+        <CostLine leftValue="skatt:" rightValue={spartSkatt} underline={1} />
         <CostLine
           leftValue="estimert netto lønnreduksjon:"
-          rightValue={calculateAndDisplayValue(
-            calculateNettoSum,
-            parseFloat(pris),
-            parseFloat(mva),
-            parseFloat(skatt)
-          )}
+          rightValue={loennreduksjon}
           underline={2}
         />
       </div>

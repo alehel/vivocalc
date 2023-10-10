@@ -27,10 +27,7 @@ export default function TextInput({
 
   return (
     <div className="mb-4">
-      <label
-        className="block text-gray-600 text-sm font-bold mb-2"
-        htmlFor={id}
-      >
+      <label className="block text-gray-600 text-sm font-bold mb-2" htmlFor={id}>
         {labelText}
       </label>
       <input
