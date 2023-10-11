@@ -38,7 +38,7 @@ export default function CalculatorResults({
     pris,
     mva,
     skatt,
-    oektAga
+    oektAga,
   );
   const mvaKr = validValues
     ? (parseFloat(pris) - parseFloat(utenMva)).toString()
@@ -48,14 +48,25 @@ export default function CalculatorResults({
     <div className="text-sm w-full">
       <h2 className="text-gray-600 font-bold mb-2">Utregning</h2>
       <div>
-        <CostLine description="kost" value={validValues ? pris : errorSymbol} />
+        <CostLine
+          description="kost"
+          value={validValues ? pris : errorSymbol}
+        />
         <CostLine
           description={`mva (${validValues ? mva : errorSymbol}%)`}
           value={mvaKr}
           operator="-"
         />
-        <CostLine description="trekkgrunnlag" value={utenMva} operator="=" />
-        <CostLine description="soskost" value={soskost} operator="-" />
+        <CostLine
+          description="trekkgrunnlag"
+          value={utenMva}
+          operator="="
+        />
+        <CostLine
+          description="soskost"
+          value={soskost}
+          operator="-"
+        />
         <CostLine
           description="lønnstrekk (brutto)"
           value={loennsgrunnlag}
