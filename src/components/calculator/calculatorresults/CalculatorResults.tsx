@@ -75,7 +75,7 @@ export default function CalculatorResults({
         <CostLine description="trekkgrunnlag" value={utenMva} operator="=" />
         <CostLine description="soskost" value={soskost} operator="-" />
         <CostLine
-          description="lønnsreduksjon (brutto)"
+          description="lønnstrekk (brutto)"
           value={loennsgrunnlag}
           operator="="
         />
@@ -86,7 +86,7 @@ export default function CalculatorResults({
           operator="-"
         />
         <CostLine
-          description="lønnsreduksjon (netto)"
+          description="lønnstrekk (netto)"
           value={loennreduksjon}
           operator="="
           underline={2}
