@@ -1,9 +1,9 @@
 import React from "react";
 import { TextInput } from "@/components/textinput";
 import { CheckboxInput } from "../../checkboxinput";
-import { isANumber, isAPercentage, isAReasonablePositiveNumber } from "@/lib/validators";
+import { isAPercentage, isAReasonablePositiveNumber } from "@/lib/validators";
 
-function CalculatorForm({
+export default function CalculatorForm({
   pris,
   setPris,
   mva,
@@ -23,11 +23,11 @@ function CalculatorForm({
   setOektAga: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <form className="w-full">
+    <form className="w-full print:hidden">
       <TextInput
         id="pris"
         labelText="Pris"
-        value={pris.toString()}
+        value={pris}
         onChange={(e) => setPris(e.currentTarget.value)}
         validator={isAReasonablePositiveNumber}
       />
@@ -35,7 +35,7 @@ function CalculatorForm({
       <TextInput
         id="mva"
         labelText="Mva"
-        value={mva.toString()}
+        value={mva}
         onChange={(e) => setMva(e.currentTarget.value)}
         validator={isAPercentage}
       />
@@ -43,7 +43,7 @@ function CalculatorForm({
       <TextInput
         id="skatt"
         labelText="Skatt"
-        value={skatt.toString()}
+        value={skatt}
         onChange={(e) => setSkatt(e.currentTarget.value)}
         validator={isAPercentage}
       />
@@ -57,5 +57,3 @@ function CalculatorForm({
     </form>
   );
 }
-
-export { CalculatorForm as default };

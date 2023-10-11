@@ -5,9 +5,5 @@ export default function InfoContainer({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="bg-white md:shadow-md rounded px-8 pt-6 pb-8">
-      {children}
-    </div>
-  );
+  return <div className="bg-white md:shadow-md rounded p-8">{children}</div>;
 }
