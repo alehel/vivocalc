@@ -1,3 +1,4 @@
+import React from "react";
 import CostLine from "@/components/costline/CostLine";
 import {
   calculateLoennsgrunnlag,
@@ -7,7 +8,6 @@ import {
   priceBeforeMva,
 } from "@/lib/calculatorFunctions";
 import { isAReasonablePositiveNumber, isAPercentage } from "@/lib/validators";
-import React from "react";
 
 export default function CalculatorResults({
   pris,
@@ -20,56 +20,38 @@ export default function CalculatorResults({
   skatt: string;
   oektAga: boolean;
 }) {
+  const errorSymbol = " -";
   const validValues =
     isAReasonablePositiveNumber(pris) &&
     isAPercentage(mva) &&
     isAPercentage(skatt);
 
-  const valideringFeilSymbol = " -";
-  const utenMva = validValues
-    ? priceBeforeMva(parseFloat(pris), parseFloat(mva)).toString()
-    : valideringFeilSymbol;
-  const loennsgrunnlag = validValues
-    ? calculateLoennsgrunnlag(
-        parseFloat(pris),
-        parseFloat(mva),
-        oektAga
-      ).toString()
-    : valideringFeilSymbol;
-  const soskost = validValues
-    ? calculateSoskost(parseFloat(pris), parseFloat(mva), oektAga).toString()
-    : valideringFeilSymbol;
-  const spartSkatt = validValues
-    ? calculateTax(
-        parseFloat(pris),
-        parseFloat(mva),
-        parseFloat(skatt),
-        oektAga
-      ).toString()
-    : valideringFeilSymbol;
-  const loennreduksjon = validValues
-    ? calculateNettoSum(
-        parseFloat(pris),
-        parseFloat(mva),
-        parseFloat(skatt),
-        oektAga
-      ).toString()
-    : valideringFeilSymbol;
-  const mvaValidated = validValues ? mva : valideringFeilSymbol;
-  const prisValidated = validValues ? pris : valideringFeilSymbol;
-  const skattValidated = validValues ? skatt : valideringFeilSymbol;
+  const calcValue = (fn: Function, ...args: any[]) =>
+    validValues ? fn(...args.map(parseFloat)).toString() : errorSymbol;
+
+  const utenMva = calcValue(priceBeforeMva, pris, mva);
+  const loennsgrunnlag = calcValue(calculateLoennsgrunnlag, pris, mva, oektAga);
+  const soskost = calcValue(calculateSoskost, pris, mva, oektAga);
+  const spartSkatt = calcValue(calculateTax, pris, mva, skatt, oektAga);
+  const loennreduksjon = calcValue(
+    calculateNettoSum,
+    pris,
+    mva,
+    skatt,
+    oektAga
+  );
   const mvaKr = validValues
-    ? parseFloat(pris) - parseFloat(utenMva)
-    : valideringFeilSymbol;
+    ? (parseFloat(pris) - parseFloat(utenMva)).toString()
+    : errorSymbol;
 
   return (
     <div className="text-sm w-full">
       <h2 className="text-gray-600 font-bold mb-2">Utregning</h2>
-      <div className="text-sm/6">
-        <CostLine description="kost" value={prisValidated} />
+      <div>
+        <CostLine description="kost" value={validValues ? pris : errorSymbol} />
         <CostLine
-          description={`mva (${mvaValidated}%)`}
-          value={mvaKr.toString()}
+          description={`mva (${validValues ? mva : errorSymbol}%)`}
+          value={mvaKr}
           operator="-"
         />
         <CostLine description="trekkgrunnlag" value={utenMva} operator="=" />
@@ -80,7 +62,7 @@ export default function CalculatorResults({
           operator="="
         />
         <CostLine
-          description={`skatt (${skattValidated}%)`}
+          description={`skatt (${validValues ? skatt : errorSymbol}%)`}
           value={spartSkatt}
           underline={1}
           operator="-"
