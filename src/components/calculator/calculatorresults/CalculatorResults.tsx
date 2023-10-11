@@ -26,8 +26,12 @@ export default function CalculatorResults({
     isAPercentage(mva) &&
     isAPercentage(skatt);
 
-  const calcValue = (fn: Function, ...args: any[]) =>
-    validValues ? fn(...args.map(parseFloat)).toString() : errorSymbol;
+  const calcValue = (fn: Function, ...args: any[]) => {
+    const parsedArgs = args.map((arg) =>
+      typeof arg === "boolean" ? arg : parseFloat(arg),
+    );
+    return validValues ? fn(...parsedArgs).toString() : errorSymbol;
+  };
 
   const utenMva = calcValue(priceBeforeMva, pris, mva);
   const loennsgrunnlag = calcValue(calculateLoennsgrunnlag, pris, mva, oektAga);
