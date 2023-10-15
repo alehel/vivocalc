@@ -15,7 +15,7 @@ export default function TextInput({
 }) {
   const [validatioOk, setValidationOk] = useState(true);
 
-  function onChangeWithValidation(e: ChangeEvent<HTMLInputElement>) {
+  function validatBeforeOnChange(e: ChangeEvent<HTMLInputElement>) {
     if (validator !== undefined) {
       setValidationOk(validator(e.currentTarget.value));
     }
@@ -34,12 +34,12 @@ export default function TextInput({
         {labelText}
       </label>
       <input
-        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#152534] ${
+        className={`shadow border-2 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:ring-0 border-[#e5e7eb] focus:border-[#152534] ${
           !validatioOk ? "bg-red-100" : ""
         }`}
         id={id}
         type="text"
-        onChange={onChangeWithValidation}
+        onChange={validatBeforeOnChange}
         value={value}
       />
     </div>

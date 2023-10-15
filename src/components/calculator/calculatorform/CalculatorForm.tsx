@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput } from "@/components/textinput";
+import { NumberInput } from "@/components/numberinput";
 import { CheckboxInput } from "../../checkboxinput";
 import { isAPercentage, isAReasonablePositiveNumber } from "@/lib/validators";
 
@@ -24,7 +24,7 @@ export default function CalculatorForm({
 }) {
   return (
     <form className="w-full print:hidden">
-      <TextInput
+      <NumberInput
         id="pris"
         labelText="Pris"
         value={pris}
@@ -32,7 +32,7 @@ export default function CalculatorForm({
         validator={isAReasonablePositiveNumber}
       />
 
-      <TextInput
+      <NumberInput
         id="mva"
         labelText="Mva"
         value={mva}
@@ -40,7 +40,7 @@ export default function CalculatorForm({
         validator={isAPercentage}
       />
 
-      <TextInput
+      <NumberInput
         id="skatt"
         labelText="Skatt"
         value={skatt}
