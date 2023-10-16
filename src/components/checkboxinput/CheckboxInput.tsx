@@ -15,7 +15,7 @@ export default function CheckboxInput({
     <div className="flex items-center space-x-2">
       <input
         id={id}
-        className="shadow cursor-pointer rounded border-[#cfd0d4] "
+        className="shadow cursor-pointer rounded border-[#cfd0d4] focus:ring-[#152534]"
         type="checkbox"
         onChange={onChange}
         checked={checked}
