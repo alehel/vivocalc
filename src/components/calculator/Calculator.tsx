@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function Calculator() {
   const [pris, setPris] = useState("10000");
   const [mva, setMva] = useState("25");
-  const [skatt, setSkatt] = useState("46.5");
+  const [skatt, setSkatt] = useState("47.6");
   const [oektAga, setOektAga] = useState(false);
 
   return (
