@@ -47,13 +47,6 @@ export default function CalculatorForm({
         onChange={(e) => setSkatt(e.currentTarget.value)}
         validator={isAPercentage}
       />
-
-      <CheckboxInput
-        id="aga"
-        labelText="Økt AGA"
-        checked={oektAga}
-        onChange={(e) => setOektAga(e.currentTarget.checked)}
-      />
     </form>
   );
 }
